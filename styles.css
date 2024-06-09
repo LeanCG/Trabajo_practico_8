@@ -1,0 +1,117 @@
+/* Estilos generales del cuerpo de la página */
+body {
+    font-family: Arial, sans-serif; /* Define la familia de fuentes para el texto */
+    background-color: #f4f4f9; /* Color de fondo de la página */
+    color: #333; /* Color del texto */
+    margin: 0; /* Elimina el margen predeterminado del cuerpo */
+    padding: 0; /* Elimina el relleno predeterminado del cuerpo */
+}
+
+/* Contenedor principal */
+.container {
+    width: 80%; /* Ancho del contenedor */
+    margin: 20px auto; /* Margen superior/inferior de 20px y centra horizontalmente */
+    padding: 20px; /* Relleno interno de 20px */
+    background-color: #fff; /* Color de fondo blanco */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra alrededor del contenedor */
+}
+
+/* Estilo del título principal */
+h1 {
+    text-align: center; /* Centra el texto */
+    color: #4CAF50; /* Color verde */
+    margin-bottom: 20px; /* Margen inferior de 20px */
+}
+
+/* Estilos de las tablas */
+table {
+    width: 100%; /* Ancho total de la tabla */
+    border-collapse: collapse; /* Elimina los espacios entre las celdas */
+    margin-bottom: 20px; /* Margen inferior de 20px */
+}
+
+/* Estilos de las celdas de la tabla */
+th, td {
+    padding: 12px; /* Relleno interno de 12px */
+    text-align: left; /* Alinea el texto a la izquierda */
+    border-bottom: 1px solid #ddd; /* Borde inferior gris claro */
+}
+
+/* Estilos de los encabezados de las tablas */
+th {
+    background-color: #4CAF50; /* Fondo verde */
+    color: white; /* Texto blanco */
+}
+
+/* Estilo de las filas pares de la tabla */
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Fondo gris claro */
+}
+
+/* Estilos de los botones */
+.button {
+    display: inline-block; /* Botones en línea */
+    padding: 10px 20px; /* Relleno interno */
+    margin: 10px 0; /* Margen vertical de 10px */
+    background-color: #4CAF50; /* Fondo verde */
+    color: white; /* Texto blanco */
+    text-align: center; /* Texto centrado */
+    text-decoration: none; /* Sin subrayado */
+    border-radius: 4px; /* Bordes redondeados */
+    transition: background-color 0.3s; /* Transición suave del color de fondo */
+}
+
+/* Efecto hover de los botones */
+.button:hover {
+    background-color: #45a049; /* Fondo verde más oscuro al pasar el ratón */
+}
+
+/* Estilo especial para los botones de eliminación */
+.delete {
+    background-color: #f44336; /* Fondo rojo */
+}
+
+/* Efecto hover de los botones de eliminación */
+.delete:hover {
+    background-color: #d32f2f; /* Fondo rojo más oscuro al pasar el ratón */
+}
+
+/* Estilos de los formularios */
+form {
+    width: 100%; /* Ancho total */
+    max-width: 600px; /* Ancho máximo de 600px */
+    margin: 0 auto; /* Centrado horizontal */
+}
+
+/* Estilos de las etiquetas de los formularios */
+label {
+    display: block; /* Mostrar como bloque */
+    margin: 10px 0 5px; /* Margen superior/inferior de 10px y margen inferior de 5px */
+}
+
+/* Estilos de los campos de entrada de texto, email y SELECT (modificar después)*/
+input[type="text"], input[type="email"] {
+    width: 100%; /* Ancho total */
+    padding: 8px; /* Relleno interno */
+    margin-bottom: 10px; /* Margen inferior de 10px */
+    box-sizing: border-box; /* Incluye el relleno en el ancho y alto */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+/* Estilos de los botones de envío */
+input[type="submit"] {
+    width: 100%; /* Ancho total */
+    padding: 10px; /* Relleno interno */
+    background-color: #4CAF50; /* Fondo verde */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor a una mano */
+    transition: background-color 0.3s; /* Transición suave del color de fondo */
+}
+
+/* Efecto hover de los botones de envío */
+input[type="submit"]:hover {
+    background-color: #45a049; /* Fondo verde más oscuro al pasar el ratón */
+}
