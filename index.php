@@ -10,7 +10,8 @@
 <body>
     <div class="container"> <!-- Contenedor principal de la página. -->
         <h1>Lista de Empleados</h1> <!-- Encabezado principal. -->
-        <a href="create.php" class="button">Agregar Nuevo Empleado</a> <!-- Enlace para agregar un nuevo empleado. -->
+        <a href="create.php" class="button">Agregar Nuevo Empleado</a>
+        <a href="create_inasistencia.php" class="button">Agregar Inasistencia</a> <!-- Enlace para agregar un nuevo empleado. -->
         <table>
             <thead>
                 <tr>
