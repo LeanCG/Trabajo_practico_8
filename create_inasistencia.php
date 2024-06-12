@@ -98,6 +98,7 @@
                                     <a href='delete_inasistencia.php?id={$row['idausencia']}' class='button delete'>Eliminar</a>
                                 </td>
                             </tr>";
+                            
                     }
                 } else {
                     echo "<tr><td colspan='6'>No hay inasistencias registradas</td></tr>";
