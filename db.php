@@ -3,7 +3,7 @@
 $servername = "localhost"; // Nombre del servidor donde se aloja la base de datos.
 $username = "root";        // Nombre de usuario para acceder a la base de datos.
 $password = "";      // Contraseña del usuario para acceder a la base de datos.
-$dbname = "RecursoHumano"; // Nombre de la base de datos a la cual se quiere conectar.
+$dbname = "recursohumano"; // Nombre de la base de datos a la cual se quiere conectar.
 
 // Crear conexión: se crea un nuevo objeto mysqli para conectarse a la base de datos utilizando los parámetros definidos.
 $conn = new mysqli($servername, $username, $password, $dbname);
