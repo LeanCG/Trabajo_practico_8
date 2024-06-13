@@ -71,6 +71,7 @@
                                     <!-- Enlaces para editar y eliminar al empleado. -->
                                     <a href='update.php?id={$row['idempleado']}' class='button'>Editar</a>
                                     <a href='delete.php?id={$row['idempleado']}' class='button delete'>Eliminar</a>
+                                    <a href='empleado_info.php?id={$row['idempleado']}' class='button'>Información</a>
                                 </td>
                             </tr>";
                     }
