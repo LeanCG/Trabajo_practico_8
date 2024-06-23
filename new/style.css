@@ -1,0 +1,26 @@
+
+.custom-select {
+    width: auto;
+    display: inline-block;
+}
+.form-group.row .col-form-label {
+    padding-left: 15px; /* Añade un margen interno a la izquierda */
+}
+.form-group.row .col-sm-10 {
+    padding-left: 15px; /* Añade un margen interno a la izquierda */
+}
+/* Cambios de color de los botones */
+.btn-primary.active,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:hover {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.btn-secondary.active,
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
