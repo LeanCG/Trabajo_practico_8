@@ -2,10 +2,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('contenido').style.display = 'none';
     document.getElementById('empleados-container').style.display = 'none';
+    document.getElementById('empleados-single-container').style.display = 'none';
 
     document.getElementById('cargarEmpleadoBtn').addEventListener('click', function () {
         document.getElementById('contenido').style.display = 'block';
         document.getElementById('empleados-container').style.display = 'none';
+        document.getElementById('empleados-single-container').style.display = 'none';
     });
 
     document.getElementById('guardarEmpleado').addEventListener('submit', function (e) {
@@ -41,7 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('mostrarEmpleadosBtn').addEventListener('click', function(e){
 
+        e.preventDefault();
+
         document.getElementById('contenido').style.display = 'none';
+        document.getElementById('empleados-single-container').style.display = 'none';
         document.getElementById('empleados-container').style.display = 'block';
 
         let xhr = new XMLHttpRequest();
@@ -60,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <td>${empleado.apellido}</td>
                             <td><button type="button" class="borrar btn btn-outline-danger btn-sm" data-id="${empleado.idempleado}">Borrar</button></td>
                             <td><button type="button" class="modificar btn btn-outline-primary btn-sm" data-id="${empleado.idempleado}">Modificar</button></td>
-                            <td><button type="button" class"modificar btn btn-outline-primary-btn-sm data-id="${empleado.idempleado}">Informacion</button></td>
+                            <td><button type="button" class="informacion btn btn-outline-secondary btn-sm" data-id="${empleado.idempleado}">Informacion</button></td>
                         </tr>  
                 `;
                     
@@ -73,5 +78,51 @@ document.addEventListener('DOMContentLoaded', function () {
         };
         xhr.send();
     });
+
+    document.getElementById('search-form').addEventListener('submit', function(e){
+
+        e.preventDefault();
+
+        document.getElementById('contenido').style.display = 'none';
+        document.getElementById('empleados-container').style.display = 'none';
+        document.getElementById('empleados-single-container').style.display = 'block';
+
+
+        let search = document.getElementById('search').value;
+
+        if(search){
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', 'search_single.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function (){
+                if(xhr.readyState === 4 && xhr.status === 200){
+                    let empleados = JSON.parse(xhr.responseText);
+                    console.log(xhr.responseText);
+                    let template = '';
+                    empleados.forEach(empleado => {
+                        template += `
+                            <tr class="usuario-data">
+                                <td>${empleado.idempleado}</td>
+                                <td>${empleado.nombre}</td>
+                                <td>${empleado.apellido}</td>
+                                <td><button type="button" class="borrar btn btn-outline-danger btn-sm" data-id="${empleado.idempleado}">Borrar</button></td>
+                                <td><button type="button" class="modificar btn btn-outline-primary btn-sm" data-id="${empleado.idempleado}">Modificar</button></td>
+                                <td><button type="button" class="informacion btn btn-outline-secondary btn-sm" data-id="${empleado.idempleado}">Informacion</button></td>
+                            </tr>  
+                    `;
+                        
+                    });
+    
+     
+    
+                    document.getElementById('search-single').innerHTML = template;
+                }
+            };
+            xhr.send(`search=${search}`);
+        }
+
+    });
+
 
 });

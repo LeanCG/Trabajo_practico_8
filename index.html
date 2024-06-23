@@ -15,12 +15,16 @@
                 <div class="d-flex justify-content-between mb-3">
                     <button id="cargarEmpleadoBtn" class="btn btn-primary m-2">Cargar Empleado</button>
                     <button id="mostrarEmpleadosBtn" class="btn btn-secondary m-2">Mostrar Empleados</button>
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar" id="buscarInput">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary m-2" type="button" id="buscarBtn">Buscar</button>
+                    <form id="search-form">
+                        <div class="input-group">
+                            <input type="search" class="form-control custom-select" placeholder="Buscar" id="search">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary m-2" type="submit" id="buscarBtn">
+                                Buscar
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -81,6 +85,20 @@
                     </tr>
                 </thead>
                 <tbody id="lista-empleados">
+                    <!-- Aquí se insertarán las filas de empleados -->
+                </tbody>
+            </table>
+        </div>
+        <div class="card mt-4" id="empleados-single-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                    </tr>
+                </thead>
+                <tbody id="search-single">
                     <!-- Aquí se insertarán las filas de empleados -->
                 </tbody>
             </table>
