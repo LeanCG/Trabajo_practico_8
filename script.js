@@ -58,9 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             <td>${empleado.idempleado}</td>
                             <td>${empleado.nombre}</td>
                             <td>${empleado.apellido}</td>
-                            <td><button type="button" class="borrar btn btn-outline-danger btn-sm" data-id="${empleado.idempleado}">Borrar</button></div>
-                            <div><button type="button" class="modificar btn btn-outline-primary btn-sm" data-id="${empleado.idempleado}">Modificar</button></div></td>
-                            <div><button type="button" class"modificar btn btn-outline-primary-btn-sm data-id="${empleado.idempleado}">
+                            <td><button type="button" class="borrar btn btn-outline-danger btn-sm" data-id="${empleado.idempleado}">Borrar</button></td>
+                            <td><button type="button" class="modificar btn btn-outline-primary btn-sm" data-id="${empleado.idempleado}">Modificar</button></td>
+                            <td><button type="button" class"modificar btn btn-outline-primary-btn-sm data-id="${empleado.idempleado}">Informacion</button></td>
                         </tr>  
                 `;
                     
