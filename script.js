@@ -41,19 +41,18 @@ document.addEventListener('DOMContentLoaded', function () {
         xhr.send(params);
     });
 
-    document.getElementById('mostrarEmpleadosBtn').addEventListener('click', function(e){
-
+    document.getElementById('mostrarEmpleadosBtn').addEventListener('click', function(e) {
         e.preventDefault();
-
+    
         document.getElementById('contenido').style.display = 'none';
         document.getElementById('empleados-single-container').style.display = 'none';
         document.getElementById('empleados-container').style.display = 'block';
-
+    
         let xhr = new XMLHttpRequest();
         xhr.open('POST', 'search.php', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function (){
-            if(xhr.readyState === 4 && xhr.status === 200){
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
                 let empleados = JSON.parse(xhr.responseText);
                 console.log(xhr.responseText);
                 let template = '';
@@ -66,19 +65,44 @@ document.addEventListener('DOMContentLoaded', function () {
                             <td><button type="button" class="borrar btn btn-outline-danger btn-sm" data-id="${empleado.idempleado}">Borrar</button></td>
                             <td><button type="button" class="modificar btn btn-outline-primary btn-sm" data-id="${empleado.idempleado}">Modificar</button></td>
                             <td><button type="button" class="informacion btn btn-outline-secondary btn-sm" data-id="${empleado.idempleado}">Informacion</button></td>
-                        </tr>  
-                `;
-                    
+                        </tr>
+                    `;
+                });
+    
+                document.getElementById('lista-empleados').innerHTML = template;
+    
+                document.querySelectorAll('.borrar').forEach(boton => {
+                    boton.addEventListener('click', function(e) {
+                        console.log("click");
+                        if (confirm('Desea eliminar los datos del empleado?')) {
+                            let idempleado = this.getAttribute('data-id');
+                            let deleteXhr = new XMLHttpRequest();
+                            deleteXhr.open('POST', 'delete.php', true);
+                            deleteXhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                            deleteXhr.onreadystatechange = function() {
+                                if (deleteXhr.readyState === 4 && deleteXhr.status === 200) {
+                                    boton.closest('tr').remove();
+                                }
+                            };
+    
+                            deleteXhr.send(`idempleado=${encodeURIComponent(idempleado)}`);
+                        }
+                    });
                 });
 
- 
-
-                document.getElementById('lista-empleados').innerHTML = template;
+                document.querySelectorAll('.informacion').forEach(boton => {
+                    boton.addEventListener('click', function(e) {
+                        let idempleado = this.getAttribute('data-id');
+                        console.log(idempleado);
+                        window.location.href = `informacion.html?id=${idempleado}`;
+                    });
+                });
+                
             }
         };
         xhr.send();
     });
-
+    
     document.getElementById('search-form').addEventListener('submit', function(e){
 
         e.preventDefault();
@@ -117,6 +141,34 @@ document.addEventListener('DOMContentLoaded', function () {
      
     
                     document.getElementById('search-single').innerHTML = template;
+
+                    document.querySelectorAll('.borrar').forEach(boton => {
+                        boton.addEventListener('click', function(e) {
+                            console.log("click");
+                            if (confirm('Desea eliminar los datos del empleado?')) {
+                                let idempleado = this.getAttribute('data-id');
+                                let deleteXhr = new XMLHttpRequest();
+                                deleteXhr.open('POST', 'delete.php', true);
+                                deleteXhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                deleteXhr.onreadystatechange = function() {
+                                    if (deleteXhr.readyState === 4 && deleteXhr.status === 200) {
+                                        boton.closest('tr').remove();
+                                    }
+                                };
+        
+                                deleteXhr.send(`idempleado=${encodeURIComponent(idempleado)}`);
+                            }
+                        });
+                    });
+
+                    document.querySelectorAll('.informacion').forEach(boton => {
+                        boton.addEventListener('click', function(e) {
+                            let idempleado = this.getAttribute('data-id');
+                            console.log(idempleado);
+                            window.location.href = `informacion.html?id=${idempleado}`;
+                        });
+                    });
+                    
                 }
             };
             xhr.send(`search=${search}`);
