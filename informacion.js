@@ -35,6 +35,10 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('volverBtn').addEventListener('click', function() {
         window.history.back();
     });
+    
+    document.getElementById('AgregardesempenioBtn').addEventListener('click',   function(){
+        window.location.href ='crud_desempenio/desempenio.html?id=${encodeURIComponent(idempleado)}';
+    });
 
     // Aquí puedes agregar eventos adicionales para los botones editar y eliminar
 });
