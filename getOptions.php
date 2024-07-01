@@ -13,5 +13,6 @@ while ($row = $result->fetch_assoc()) {
     $options[] = array("id" => $row[$idField], "description" => $row[$descField]);
 }
 
+
 echo json_encode($options);
 ?>
