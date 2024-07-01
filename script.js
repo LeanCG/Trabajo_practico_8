@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
 
         console.log('submited');
+        
 
         const datosRecolectados = {
             nombre: document.getElementById('nombreInput').value,
