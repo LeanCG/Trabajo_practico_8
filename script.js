@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('contenido').style.display = 'block';
         document.getElementById('empleados-container').style.display = 'none';
         document.getElementById('empleados-single-container').style.display = 'none';
+        cargarRubros();
     });
 
     document.getElementById('guardarEmpleado').addEventListener('submit', function (e) {
@@ -175,6 +176,27 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
     });
+
+    function cargarRubros() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'lista_dato_laboral.php', true);
+        xhr.onload = function() {
+            if (this.status === 200) {
+                const rubros = JSON.parse(this.responseText);
+                const selectRubro = document.getElementById('datoLaboralSelect');
+                selectRubro.innerHTML = '<option value="">Seleccione un rubro</option>';  // Limpiar opciones anteriores
+                rubros.forEach(function(rubro) {
+                    const option = document.createElement('option');
+                    option.value = rubro.idrubro;
+                    option.textContent = rubro.descripcion;
+                    selectRubro.appendChild(option);
+                });
+            } else {
+                console.error('Error en la solicitud AJAX');
+            }
+        }
+        xhr.send();
+    }
 
 
 });
