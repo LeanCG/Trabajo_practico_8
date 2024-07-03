@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('contenido').style.display = 'block';
         document.getElementById('empleados-container').style.display = 'none';
         document.getElementById('empleados-single-container').style.display = 'none';
+        cargarRubros();
     });
 
     document.getElementById('guardarEmpleado').addEventListener('submit', function (e) {
@@ -23,7 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
             email: document.getElementById('emailInput').value,
             tipoEmp: document.getElementById('tipoEmpleadoSelect').value,
             histAc: document.getElementById('historialAcademicoSelect').value,
-            datoLaboral: document.getElementById('datoLaboralSelect').value
+            datoLaboral: document.getElementById('datoLaboralSelect').value,
+            descripcion_laboral : document.getElementById('descripcionDatoLaboral').value,
+            fecha_ingreso : document.getElementById('fecha_ingreso').value
         };
 
         let xhr = new XMLHttpRequest();
@@ -36,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
 
-        let params = `nombreInput=${encodeURIComponent(datosRecolectados.nombre)}&apellidoInput=${encodeURIComponent(datosRecolectados.apellido)}&dniInput=${encodeURIComponent(datosRecolectados.dni)}&cuilInput=${encodeURIComponent(datosRecolectados.cuil)}&emailInput=${encodeURIComponent(datosRecolectados.email)}&tipoEmpleadoSelect=${encodeURIComponent(datosRecolectados.tipoEmp)}&historialAcademicoSelect=${encodeURIComponent(datosRecolectados.histAc)}&datoLaboralSelect=${encodeURIComponent(datosRecolectados.datoLaboral)}`;
+        let params = `nombreInput=${encodeURIComponent(datosRecolectados.nombre)}&apellidoInput=${encodeURIComponent(datosRecolectados.apellido)}&dniInput=${encodeURIComponent(datosRecolectados.dni)}&cuilInput=${encodeURIComponent(datosRecolectados.cuil)}&emailInput=${encodeURIComponent(datosRecolectados.email)}&tipoEmpleadoSelect=${encodeURIComponent(datosRecolectados.tipoEmp)}&historialAcademicoSelect=${encodeURIComponent(datosRecolectados.histAc)}&datoLaboralSelect=${encodeURIComponent(datosRecolectados.datoLaboral)}&descripcionDatoLaboral=${encodeURIComponent(datosRecolectados.descripcion_laboral)}&fecha_ingreso=${encodeURIComponent(datosRecolectados.fecha_ingreso)}`;
 
         xhr.send(params);
     });
@@ -175,6 +178,27 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
     });
+
+    function cargarRubros() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'lista_rubro.php', true);
+        xhr.onload = function() {
+            if (this.status === 200) {
+                const rubros = JSON.parse(this.responseText);
+                const selectRubro = document.getElementById('datoLaboralSelect');
+                selectRubro.innerHTML = '<option value="">Seleccione un rubro</option>';  // Limpiar opciones anteriores
+                rubros.forEach(function(rubro) {
+                    const option = document.createElement('option');
+                    option.value = rubro.idrubro;
+                    option.textContent = rubro.descripcion;
+                    selectRubro.appendChild(option);
+                });
+            } else {
+                console.error('Error en la solicitud AJAX');
+            }
+        }
+        xhr.send();
+    }
 
 
 });
