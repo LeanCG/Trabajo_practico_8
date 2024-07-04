@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
     const idempleado = urlParams.get('id');
     console.log(idempleado);
+    document.getElementById('asistencia').style.display = 'none';
+
 
     if (idempleado) {
         let xhr = new XMLHttpRequest();
@@ -36,5 +38,53 @@ document.addEventListener('DOMContentLoaded', function () {
         window.history.back();
     });
 
-    // Aquí puedes agregar eventos adicionales para los botones editar y eliminar
+    document.getElementById('ausenciaBtn').addEventListener('click', function(e){
+        document.getElementById('asistencia').style.display = 'block';
+        tipoAusencia();
+    });
+
+    document.getElementById('guardarAsistencia').addEventListener('submit', function(e){
+        e.preventDefault();
+
+        const datosRecolectados = {
+            fechaSalida : document.getElementById('fecha_salida').value,
+            fechaEntrada : document.getElementById('fecha_entrada').value,
+            motivoAusencia : document.getElementById('tipo_ausencia').value
+        }
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', 'create_inasistencia.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+                document.getElementById('guardarAsistencia').reset();
+            }
+        };
+        
+        let params = `idempleado=${encodeURIComponent(idempleado)}&fecha_salida=${encodeURIComponent(datosRecolectados.fechaSalida)}&fecha_entrada=${encodeURIComponent(datosRecolectados.fechaEntrada)}&tipo_ausencia=${encodeURIComponent(datosRecolectados.motivoAusencia)}`;
+
+        xhr.send(params);
+    });
+
+    function tipoAusencia() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'lista_motivo_ausencia.php', true);
+        xhr.onload = function() {
+            if (this.status === 200) {
+                const motivos = JSON.parse(this.responseText);
+                const ausencia = document.getElementById('tipo_ausencia');
+                ausencia.innerHTML = '<option value="">Motivo ausencia</option>';  // Limpiar opciones anteriores
+                motivos.forEach(function(motivo) {
+                    const option = document.createElement('option');
+                    option.value = motivo.idtipo_ausencia;
+                    option.textContent = motivo.motivo;
+                    ausencia.appendChild(option);
+                });
+            } else {
+                console.error('Error en la solicitud AJAX');
+            }
+        }
+        xhr.send();
+    }
 });
