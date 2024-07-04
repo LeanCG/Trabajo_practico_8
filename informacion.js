@@ -45,10 +45,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('guardarAsistencia').addEventListener('submit', function(e){
         e.preventDefault();
+
+        const datosRecolectados = {
+            fechaSalida : document.getElementById('fecha_salida').value,
+            fechaEntrada : document.getElementById('fecha_entrada').value,
+            motivoAusencia : document.getElementById('tipo_ausencia').value
+        }
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', 'create_inasistencia.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+                document.getElementById('guardarAsistencia').reset();
+            }
+        };
         
+        let params = `idempleado=${encodeURIComponent(idempleado)}&fecha_salida=${encodeURIComponent(datosRecolectados.fechaSalida)}&fecha_entrada=${encodeURIComponent(datosRecolectados.fechaEntrada)}&tipo_ausencia=${encodeURIComponent(datosRecolectados.motivoAusencia)}`;
+
+        xhr.send(params);
     });
-
-
 
     function tipoAusencia() {
         const xhr = new XMLHttpRequest();
