@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <td>${empleado.apellido}</td>
                                 <td><button type="button" class="borrar btn btn-outline-danger btn-sm" data-id="${empleado.idempleado}">Borrar</button></td>
                                 <td><button type="button" class="modificar btn btn-outline-primary btn-sm" data-id="${empleado.idempleado}">Modificar</button></td>
-                                <td><button type="button" class="informacion btn btn-outline-secondary btn-sm" data-id="${empleado.idempleado}">Informacion</button></td>
+                                <td><button type="button" class="informacion btn btn-outline-secondary btn-sm" data-id="${empleado.idempleado}">Infor</button></td>
                             </tr>  
                     `;
                         
