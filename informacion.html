@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Información del Empleado</title>
-    <link rel="stylesheet" href="variacion-boots3.css">
+    <link rel="stylesheet" href="variacion_boots5.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,6 +16,7 @@
         <div class="d-flex justify-content-between mt-4">
             <button id="volverBtn" class="btn btn-secondary">Volver</button>
             <!-- Puedes agregar más botones aquí -->
+            <button id="ausenciaBtn" class="btn btn-outline-light">Ausencias</button>
             <button id="editarBtn" class="btn btn-primary">Editar</button>
             <button id="eliminarBtn" class="btn btn-danger">Eliminar</button>
         </div>
@@ -23,15 +24,21 @@
     <div class="card mt-4" id="asistencia">
         <h1 class="text-center">Registrar Inasistencia</h1>
         <form id="guardarAsistencia">
-            <label for="fecha_salida">Fecha salida:</label>
-            <input type="date" name="fecha_salida" id="fecha_salida" required>
-            <label for="fecha_entrada">Fecha entrada:</label>
-            <input type="date" name="fecha_entrada" id="fecha_entrada" required>
-            <label for="tipo_ausencia">Tipo ausencia:</label>
-            <select name="tipo_ausencia_idtipo_ausencia" id="tipo_ausencia" required></select>
-            <label for="empleado">Empleado:</label>
-            <select name="dato_laboral_iddato_laboral" id="dato_laboral_iddato_laboral" required></select>
-            <input type="submit" name="submit" value="Agregar" class="btn btn-primary mt-4">
+            <div>
+                <label for="fecha_salida">Fecha salida:</label>
+                <input type="date" name="fecha_salida" id="fecha_salida" class="col-sm-2 col-form-label my-2" required>
+            </div>
+            <div>
+                <label for="fecha_entrada">Fecha entrada:</label>
+                <input type="date" name="fecha_entrada" id="fecha_entrada" class="col-sm-2 col-form-label my-2" required>
+            </div>
+            <div>
+                <label for="tipo_ausencia">Tipo ausencia:</label>
+                <select name="tipo_ausencia_idtipo_ausencia" id="tipo_ausencia" class="col-sm-2 col-form-label my-2" required>
+                    <option value="">Motivo Ausencia</option>
+                </select>
+            </div>
+            <input type="submit" name="submit" value="Agregar" id="ausenciaBtn" class="btn btn-primary mt-4">
         </form>
     </div>
     <script src="informacion.js"></script>
