@@ -1,5 +1,5 @@
 <?php
-include("database.php"); // Incluir archivo de conexión a la base de datos
+include('database.php'); // Incluir archivo de conexión a la base de datos
 
 // Verificar si se está recibiendo una solicitud POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

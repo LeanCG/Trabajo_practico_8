@@ -2,7 +2,7 @@
 
 
 // Conexión a la base de datos
-include ("database.php");
+include ('database.php');
 
 if (isset($_POST['idempleado'])) {
 
