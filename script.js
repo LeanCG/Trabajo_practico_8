@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('empleados-container').style.display = 'none';
         document.getElementById('empleados-single-container').style.display = 'none';
         cargarRubros();
+        cargarHistorialAcademico();
     });
 
     document.getElementById('guardarEmpleado').addEventListener('submit', function (e) {
@@ -199,13 +200,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         xhr.send();
     }
+
     function cargarHistorialAcademico() {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', 'historial_academico.php', true);
         xhr.onload = function() {
             if (this.status === 200) {
                 const historiales = JSON.parse(this.responseText);
-                const selectElement = document.getElementById('historial_academico');
+                const selectElement = document.getElementById('historialAcademicoSelect');
                 selectElement.innerHTML = '<option value="">Seleccione el historial académico</option>'; // Limpiar opciones anteriores
     
                 historiales.forEach(function(historial) {

@@ -127,24 +127,6 @@
                 .catch(error => console.error('Error al cargar los tipos de empleado:', error));
         });
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('historial_academico.php') // Hace una solicitud a get a historial academico
-                .then(response => response.json()) // Convierte la respuesta a JSON
-                .then(data => {
-                    const historialAcademicoSelect= document.getElementById('historialAcademicoSelect');
-                    data.forEach(tipo => {
-                        const option = document.createElement('option');
-                        option.value = tipo.id;
-                        option.textContent = tipo.descripcion;
-                        historialAcademicoSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error al cargar historial academico:', error));
-
-            
-        
-        });
-    </script>
+    
 </body>
 </html>
