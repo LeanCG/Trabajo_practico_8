@@ -199,6 +199,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         xhr.send();
     }
-
+    function cargarHistorialAcademico() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'historial_academico.php', true);
+        xhr.onload = function() {
+            if (this.status === 200) {
+                const historiales = JSON.parse(this.responseText);
+                const selectElement = document.getElementById('historial_academico');
+                selectElement.innerHTML = '<option value="">Seleccione el historial académico</option>'; // Limpiar opciones anteriores
+    
+                historiales.forEach(function(historial) {
+                    const option = document.createElement('option');
+                    option.value = historial.idhistorial_academico;
+                    option.textContent = historial.descripcion;
+                    selectElement.appendChild(option);
+                });
+            } else {
+                console.error('Error en la solicitud AJAX');
+            }
+        }
+        xhr.send();
+    }
 
 });
