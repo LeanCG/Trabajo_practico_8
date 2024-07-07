@@ -21,7 +21,7 @@ if (isset($_POST['idempleado'])) {
         echo "No se encontraron resultados";
     }
 
-    $sql = "SELECT ausencia.fecha_salida,ausencia.fecha_entrada, tipo_ausencia.motivo FROM ausencia inner join recursohumano.tipo_ausencia as tipo_ausencia on tipo_ausencia.idtipo_ausencia=ausencia.tipo_ausencia_idtipo_ausencia where ausencia.dato_laboral_iddato_laboral=$dato_laboral";
+    $sql = "SELECT ausencia.fecha_salida,ausencia.fecha_entrada, tipo_ausencia.motivo FROM ausencia inner join tipo_ausencia on tipo_ausencia.idtipo_ausencia=ausencia.tipo_ausencia_idtipo_ausencia where ausencia.dato_laboral_iddato_laboral=$dato_laboral";
   
     $result = mysqli_query($conn, $sql);
 
