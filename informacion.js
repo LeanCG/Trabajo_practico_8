@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const idempleado = urlParams.get('id');
     console.log(idempleado);
     document.getElementById('asistencia').style.display = 'none';
+    document.getElementById('info-ausencia').style.display = 'none';
+    document.getElementById('h1ausencia').style.display = 'none';
 
 
     if (idempleado) {
@@ -78,6 +80,33 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('asistencia').style.display = 'block';
         tipoAusencia();
     });
+
+    document.getElementById('verausenciaBtn').addEventListener('click', function(e){
+        document.getElementById('h1ausencia').style.display = 'block';
+        document.getElementById('info-ausencia').style.display = 'block';
+        
+    
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', 'info-ausencia.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let ausencias = JSON.parse(xhr.responseText);
+                let template = '';
+                ausencias.forEach(ausencia => {
+                    template += `
+                        <p><strong>Fecha de Salida:</strong> ${ausencia.fecha_salida}</p>
+                        <p><strong>Fecha de Entrada:</strong> ${ausencia.fecha_entrada}</p>
+                        <p><strong>Motivo:</strong> ${ausencia.motivo}</p>                       
+                    `;
+                    
+                });
+                document.getElementById('info-ausencia').innerHTML = template;
+            }
+        };
+        xhr.send(`idempleado=${encodeURIComponent(idempleado)}`);
+    });
+
 
     document.getElementById('guardarAsistencia').addEventListener('submit', function(e){
         e.preventDefault();
