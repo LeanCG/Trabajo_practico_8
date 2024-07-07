@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             <td>${empleado.nombre}</td>
                             <td>${empleado.apellido}</td>
                             <td><button type="button" class="borrar btn btn-outline-danger btn-sm" data-id="${empleado.idempleado}">Borrar</button></td>
-                            <td><button type="button" class="modificar btn btn-outline-primary btn-sm" data-id="${empleado.idempleado}">Modificar</button></td>
                             <td><button type="button" class="informacion btn btn-outline-secondary btn-sm" data-id="${empleado.idempleado}">Informacion</button></td>
                         </tr>
                     `;
@@ -81,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (confirm('Desea eliminar los datos del empleado?')) {
                             let idempleado = this.getAttribute('data-id');
                             let deleteXhr = new XMLHttpRequest();
-                            deleteXhr.open('POST', 'delete.php', true);
+                            deleteXhr.open('POST', 'delete_empleado.php', true);
                             deleteXhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                             deleteXhr.onreadystatechange = function() {
                                 if (deleteXhr.readyState === 4 && deleteXhr.status === 200) {

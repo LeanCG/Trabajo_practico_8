@@ -16,66 +16,43 @@ document.addEventListener('DOMContentLoaded', function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 let empleado = JSON.parse(xhr.responseText)[0]; // Asumimos que obtenemos un solo empleado
                 let template = `
-                    <form id="empleadoForm">
-                        <div class="form-group">
-                            <label for="idempleado">ID:</label>
-                            <input type="text" id="idempleado" class="form-control" value="${empleado.idempleado}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="nombre">Nombre:</label>
-                            <input type="text" id="nombre" class="form-control" value="${empleado.nombre}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="apellido">Apellido:</label>
-                            <input type="text" id="apellido" class="form-control" value="${empleado.apellido}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="dni">DNI:</label>
-                            <input type="text" id="dni" class="form-control" value="${empleado.dni}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="cuil">CUIL:</label>
-                            <input type="text" id="cuil" class="form-control" value="${empleado.cuil}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" class="form-control" value="${empleado.mail}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="tipo_empleado">Tipo de Empleado:</label>
-                            <input type="text" id="tipo_empleado" class="form-control" value="${empleado.tipo_empleado}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="historial_academico">Historial Académico:</label>
-                            <input type="text" id="historial_academico" class="form-control" value="${empleado.historial_academico}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="dato_laboral">Dato Laboral:</label>
-                            <input type="text" id="dato_laboral" class="form-control" value="${empleado.dato_laboral}" disabled>
-                        </div>
-                        <button type="button" id="guardarBtn" class="btn btn-success" disabled>Guardar</button>
-                        <button type="button" id="editarBtn" class="btn btn-primary">Editar</button>
-                    </form>
+                    <div id="empleadoInfo">
+                        <p><strong>ID:</strong> <span id="idempleado">${empleado.idempleado}</span></p>
+                        <p><strong>Nombre:</strong> <span id="nombre">${empleado.nombre}</span></p>
+                        <p><strong>Apellido:</strong> <span id="apellido">${empleado.apellido}</span></p>
+                        <p><strong>DNI:</strong> <span id="dni">${empleado.dni}</span></p>
+                        <p><strong>CUIL:</strong> <span id="cuil">${empleado.cuil}</span></p>
+                        <p><strong>Email:</strong> <span id="email">${empleado.mail}</span></p>
+                        <p><strong>Tipo de Empleado:</strong> <span id="tipo_empleado">${empleado.tipo_empleado}</span></p>
+                        <p><strong>Historial Académico:</strong> <span id="historial_academico">${empleado.historial_academico}</span></p>
+                        <p><strong>Dato Laboral:</strong> <span id="dato_laboral">${empleado.dato_laboral}</span></p>
+                        <button type="button" id="guardarBtn" class="btn btn-success" style="display:none;">Guardar</button>
+                    </div>
                 `;
                 document.getElementById('info-container').innerHTML = template;
 
-                document.getElementById('editarBtn').addEventListener('click', function() {
-                    const inputs = document.querySelectorAll('#empleadoForm input');
-                    inputs.forEach(input => input.disabled = false);
-                    document.getElementById('guardarBtn').disabled = false;
+                document.getElementById('EditarBtn').addEventListener('click', function() {
+                    const fields = ['idempleado', 'nombre', 'apellido', 'dni', 'cuil', 'email', 'tipo_empleado', 'historial_academico', 'dato_laboral'];
+                    fields.forEach(field => {
+                        let span = document.getElementById(field);
+                        let value = span.innerText;
+                        span.innerHTML = `<input type="text" id="input_${field}" class="form-control" value="${value}">`;
+                    });
+                    document.getElementById('guardarBtn').style.display = 'inline-block';
+                    this.style.display = 'none';
                 });
 
                 document.getElementById('guardarBtn').addEventListener('click', function() {
                     // Obtener datos del formulario
-                    const idempleado = document.getElementById('idempleado').value;
-                    const nombre = document.getElementById('nombre').value;
-                    const apellido = document.getElementById('apellido').value;
-                    const dni = document.getElementById('dni').value;
-                    const cuil = document.getElementById('cuil').value;
-                    const mail = document.getElementById('email').value;
-                    const tipo_empleado = document.getElementById('tipo_empleado').value;
-                    const historial_academico = document.getElementById('historial_academico').value;
-                    const dato_laboral = document.getElementById('dato_laboral').value;
+                    const idempleado = document.getElementById('input_idempleado').value;
+                    const nombre = document.getElementById('input_nombre').value;
+                    const apellido = document.getElementById('input_apellido').value;
+                    const dni = document.getElementById('input_dni').value;
+                    const cuil = document.getElementById('input_cuil').value;
+                    const mail = document.getElementById('input_email').value;
+                    const tipo_empleado = document.getElementById('input_tipo_empleado').value;
+                    const historial_academico = document.getElementById('input_historial_academico').value;
+                    const dato_laboral = document.getElementById('input_dato_laboral').value;
                 
                     // Crear cadena con los datos
                     const params = `idempleado=${idempleado}&nombre=${nombre}&apellido=${apellido}&dni=${dni}&cuil=${cuil}&mail=${mail}&tipo_empleado=${tipo_empleado}&historial_academico=${historial_academico}&dato_laboral=${dato_laboral}`;
@@ -104,10 +81,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     };
                     xhr.send(params);
                 });
-                
-                    };
-                };
-                ;
+            }
+        };
         xhr.send(`idempleado=${encodeURIComponent(idempleado)}`);
 
         let xhr2 = new XMLHttpRequest();
@@ -119,13 +94,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 let template = '';
                 desempenios.forEach(desempenio => {
                     template += `
-                        <p><strong>descripcion:</strong> ${desempenio.descripcion}</p>
-                        <p><strong>puntualidad:</strong> ${desempenio.puntualidad}</p>
-                        <p><strong>compañerismo:</strong> ${desempenio.compañerismo}</p>
-                        <p><strong>autoconciencia:</strong> ${desempenio.autoconciencia}</p>
-                        <p><strong>liderazgo:</strong> ${desempenio.liderazgo}</p>  
+                        <p><strong>Descripción:</strong> ${desempenio.descripcion}</p>
+                        <p><strong>Puntualidad:</strong> ${desempenio.puntualidad}</p>
+                        <p><strong>Compañerismo:</strong> ${desempenio.compañerismo}</p>
+                        <p><strong>Autoconciencia:</strong> ${desempenio.autoconciencia}</p>
+                        <p><strong>Liderazgo:</strong> ${desempenio.liderazgo}</p>  
                     `;
-                    
                 });
 
                 document.getElementById('desempeño-container').innerHTML = template;
