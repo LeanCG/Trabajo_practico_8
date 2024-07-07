@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         
                     });
     
-     
+
     
                     document.getElementById('search-single').innerHTML = template;
 

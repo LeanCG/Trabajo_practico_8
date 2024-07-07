@@ -1,6 +1,6 @@
 <?php
 // Conexión a la base de datos
-include("database.php");
+include('database.php');
 
 // Consulta para obtener los tipos de empleado
 $sql = "SELECT idtipo_empleado, descripcion FROM tipo_empleado";
