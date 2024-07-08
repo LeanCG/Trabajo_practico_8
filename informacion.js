@@ -151,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('verausenciaBtn').addEventListener('click', function(e){
         document.getElementById('h1ausencia').style.display = 'block';
+        document.getElementById('tabla-ausencias').style.display = 'block';
         document.getElementById('info-ausencia').style.display = 'block';
         
     
@@ -159,22 +160,24 @@ document.addEventListener('DOMContentLoaded', function () {
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                let ausencias = JSON.parse(xhr.responseText);
-                let template = '';
-                ausencias.forEach(ausencia => {
-                    template += `
-                        <p><strong>Fecha de Salida:</strong> ${ausencia.fecha_salida}</p>
-                        <p><strong>Fecha de Entrada:</strong> ${ausencia.fecha_entrada}</p>
-                        <p><strong>Motivo:</strong> ${ausencia.motivo}</p>                       
-                    `;
-                    
+                let data = JSON.parse(xhr.responseText);
+                let tableBody = document.getElementById('tabla-ausencias-contenido');
+                tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos datos
+    
+                data.forEach(function(ausencia) {
+                    let row = tableBody.insertRow();
+                    let cellFechaSalida = row.insertCell(0);
+                    let cellFechaEntrada = row.insertCell(1);
+                    let cellMotivo = row.insertCell(2);
+    
+                    cellFechaSalida.textContent = ausencia.fecha_salida;
+                    cellFechaEntrada.textContent = ausencia.fecha_entrada;
+                    cellMotivo.textContent = ausencia.motivo;
                 });
-                document.getElementById('info-ausencia').innerHTML = template;
             }
         };
         xhr.send(`idempleado=${encodeURIComponent(idempleado)}`);
     });
-
 
     document.getElementById('guardarAsistencia').addEventListener('submit', function(e){
         e.preventDefault();
