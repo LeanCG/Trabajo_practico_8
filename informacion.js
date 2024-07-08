@@ -14,24 +14,73 @@ document.addEventListener('DOMContentLoaded', function () {
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                let empleados = JSON.parse(xhr.responseText);
-                let template = '';
-                empleados.forEach(empleado => {
-                    template += `
-                        <p><strong>ID:</strong> ${empleado.idempleado}</p>
-                        <p><strong>Nombre:</strong> ${empleado.nombre}</p>
-                        <p><strong>Apellido:</strong> ${empleado.apellido}</p>
-                        <p><strong>DNI:</strong> ${empleado.dni}</p>
-                        <p><strong>CUIL:</strong> ${empleado.cuil}</p>
-                        <p><strong>Email:</strong> ${empleado.mail}</p>
-                        <p><strong>Tipo de Empleado:</strong> ${empleado.tipo_empleado}</p>
-                        <p><strong>Historial Académico:</strong> ${empleado.historial_academico}</p>
-                        <p><strong>Dato Laboral:</strong> ${empleado.dato_laboral}</p>  
-                    `;
-                    
+                let empleado = JSON.parse(xhr.responseText)[0]; // Asumimos que obtenemos un solo empleado
+                let template = `
+                    <div id="empleadoInfo">
+                        <p><strong>ID:</strong> <span id="idempleado">${empleado.idempleado}</span></p>
+                        <p><strong>Nombre:</strong> <span id="nombre">${empleado.nombre}</span></p>
+                        <p><strong>Apellido:</strong> <span id="apellido">${empleado.apellido}</span></p>
+                        <p><strong>DNI:</strong> <span id="dni">${empleado.dni}</span></p>
+                        <p><strong>CUIL:</strong> <span id="cuil">${empleado.cuil}</span></p>
+                        <p><strong>Email:</strong> <span id="email">${empleado.mail}</span></p>
+                        <p><strong>Tipo de Empleado:</strong> <span id="tipo_empleado">${empleado.tipo_empleado}</span></p>
+                        <p><strong>Historial Académico:</strong> <span id="historial_academico">${empleado.historial_academico}</span></p>
+                        <p><strong>Dato Laboral:</strong> <span id="dato_laboral">${empleado.dato_laboral}</span></p>
+                        <button type="button" id="guardarBtn" class="btn btn-success" style="display:none;">Guardar</button>
+                    </div>
+                `;
+                document.getElementById('info-container').innerHTML = template;
+
+                document.getElementById('EditarBtn').addEventListener('click', function() {
+                    const fields = ['idempleado', 'nombre', 'apellido', 'dni', 'cuil', 'email', 'tipo_empleado', 'historial_academico', 'dato_laboral'];
+                    fields.forEach(field => {
+                        let span = document.getElementById(field);
+                        let value = span.innerText;
+                        span.innerHTML = `<input type="text" id="input_${field}" class="form-control" value="${value}">`;
+                    });
+                    document.getElementById('guardarBtn').style.display = 'inline-block';
+                    this.style.display = 'none';
                 });
 
-                document.getElementById('info-container').innerHTML = template;
+                document.getElementById('guardarBtn').addEventListener('click', function() {
+                    // Obtener datos del formulario
+                    const idempleado = document.getElementById('input_idempleado').value;
+                    const nombre = document.getElementById('input_nombre').value;
+                    const apellido = document.getElementById('input_apellido').value;
+                    const dni = document.getElementById('input_dni').value;
+                    const cuil = document.getElementById('input_cuil').value;
+                    const mail = document.getElementById('input_email').value;
+                    const tipo_empleado = document.getElementById('input_tipo_empleado').value;
+                    const historial_academico = document.getElementById('input_historial_academico').value;
+                    const dato_laboral = document.getElementById('input_dato_laboral').value;
+                
+                    // Crear cadena con los datos
+                    const params = `idempleado=${idempleado}&nombre=${nombre}&apellido=${apellido}&dni=${dni}&cuil=${cuil}&mail=${mail}&tipo_empleado=${tipo_empleado}&historial_academico=${historial_academico}&dato_laboral=${dato_laboral}`;
+                
+                    // Enviar datos actualizados al servidor
+                    let xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'guardar_empleado.php', true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                try {
+                                    let response = JSON.parse(xhr.responseText);
+                                    alert(response.message); // Mostrar mensaje de éxito o error
+                                    if (response.status === 'success') {
+                                        window.location.reload(); // Recargar la página para ver los cambios
+                                    }
+                                } catch (e) {
+                                    console.error('Error parsing JSON:', e);
+                                    console.error('Response was:', xhr.responseText);
+                                }
+                            } else {
+                                console.error('HTTP error:', xhr.status, xhr.statusText);
+                            }
+                        }
+                    };
+                    xhr.send(params);
+                });
             }
         };
         xhr.send(`idempleado=${encodeURIComponent(idempleado)}`);
@@ -45,13 +94,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 let template = '';
                 desempenios.forEach(desempenio => {
                     template += `
-                        <p><strong>descripcion:</strong> ${desempenio.descripcion}</p>
-                        <p><strong>puntualidad:</strong> ${desempenio.puntualidad}</p>
-                        <p><strong>compañerismo:</strong> ${desempenio.compañerismo}</p>
-                        <p><strong>autoconciencia:</strong> ${desempenio.autoconciencia}</p>
-                        <p><strong>liderazgo:</strong> ${desempenio.liderazgo}</p>  
+                        <p><strong>Descripción:</strong> ${desempenio.descripcion}</p>
+                        <p><strong>Puntualidad:</strong> ${desempenio.puntualidad}</p>
+                        <p><strong>Compañerismo:</strong> ${desempenio.compañerismo}</p>
+                        <p><strong>Autoconciencia:</strong> ${desempenio.autoconciencia}</p>
+                        <p><strong>Liderazgo:</strong> ${desempenio.liderazgo}</p>  
                     `;
-                    
                 });
 
                 document.getElementById('desempeño-container').innerHTML = template;
@@ -76,6 +124,21 @@ document.addEventListener('DOMContentLoaded', function () {
     //     window.location.href =`crud_desempenio/desempenio.html?id=${encodeURIComponent(idempleado)}`;
     // });
 
+    document.getElementById('eliminarBtn').addEventListener('click', function() {
+        if (confirm('¿Estás seguro de que deseas eliminar este empleado?')) {
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', 'delete_empleado.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    alert('Empleado eliminado correctamente');
+                    window.history.back(); // Volver a la página anterior
+                }
+            };
+            xhr.send(`idempleado=${encodeURIComponent(idempleado)}`);
+        }
+    });
+  
     document.getElementById('ausenciaBtn').addEventListener('click', function(e){
         document.getElementById('asistencia').style.display = 'block';
         tipoAusencia();
