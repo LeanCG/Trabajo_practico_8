@@ -6,7 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('asistencia').style.display = 'none';
     document.getElementById('info-ausencia').style.display = 'none';
     document.getElementById('h1ausencia').style.display = 'none';
-
+    if (localStorage.getItem('recargarDesempenio') === 'true') {
+        verDesempenio(idempleado);
+        localStorage.removeItem('recargarDesempenio');
+    }
 
     if (idempleado) {
         let xhr = new XMLHttpRequest();
@@ -84,7 +87,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
         xhr.send(`idempleado=${encodeURIComponent(idempleado)}`);
+        verDesempenio(idempleado);
+    }
 
+    function verDesempenio(e){
         let xhr2 = new XMLHttpRequest();
         xhr2.open('POST', 'crud_desempenio/view.php', true);
         xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -106,8 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
         xhr2.send(`idempleado=${encodeURIComponent(idempleado)}`);
-    }
-
+    };
     document.getElementById('volverBtn').addEventListener('click', function() {
         window.history.back();
     });

@@ -7,86 +7,38 @@
     <link href="../style.css" rel="stylesheet">
     <link rel="stylesheet" href="../variacion_boots5.css">
   </head>
-  <body>
-    <div class="card mt-4" id="contenido">
-      <div id="CrearEvaluacion">
-        <form id="form">
-          <div class="form-group row">
-            <label for="puntualidad" class="entryInput col-sm-2 col-form-label my-2">puntualidad</label>
-              <div class="col-sm-10">
-                  <select id="puntualidad" class="form-control custom-select">
-                      <option value="">Selecciona una opción</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
-                  </select>
+  <body class="container mt-5">
+    <div class="card mt-4 p-4" id="contenido">
+          <div id="CrearEvaluacion">
+            <form id="form">
+              <div class="form-group row">
+                <label for="puntualidad" class="entryInput col-sm-2 col-form-label my-2">Puntualidad</label>
+                  <div class="col-sm-10">
+                      <input type="number" class="form-control" id="puntualidad" min="1" max="10" placeholder="Ingrese un numero" required>
+                  </div>
               </div>
-          </div>
-          <div class="form-group row">
-            <label for="companierismo" class="entryInput col-sm-2 col-form-label my-2">comapanierismo</label>
-              <div class="col-sm-10">
-                  <select id="companierismo" class="form-control custom-select">
-                      <option value="">Selecciona una opción</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
-                  </select>
+              <div class="form-group row">
+                <label for="companierismo" class="entryInput col-sm-2 col-form-label my-2">Companierismo</label>
+                  <div class="col-sm-10">
+                      <input type="number" class="form-control" id="companierismo" min="1" max="10" placeholder="Ingrese un numero" required>
+                  </div>
               </div>
-          </div>
-          <div class="form-group row">
-            <label for="autoconciencia" class="entryInput col-sm-2 col-form-label my-2">autoconciencia</label>
-              <div class="col-sm-10">
-                <select id="autoconciencia" class="form-control custom-select">
-                    <option value="">Selecciona una opción</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
+              <div class="form-group row">
+                <label for="autoconciencia" class="entryInput col-sm-2 col-form-label my-2">Autoconciencia</label>
+                  <div class="col-sm-10">
+                    <input type="number" id="autoconciencia" class="form-control" min="1" max="10" placeholder="Ingrese un numero" required>
+                  </div>
               </div>
-          </div>
-          <div class="form-group row">
-            <label for="liderazgo" class="entryInput col-sm-2 col-form-label my-2">liderazgo</label>
-            <div class="col-sm-10">
-              <select id="liderazgo" class="form-control custom-select">
-                  <option value="">Selecciona una opción</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-              </select>
+              <div class="form-group row">
+                <label for="liderazgo" class="entryInput col-sm-2 col-form-label my-2">Liderazgo</label>
+                <div class="col-sm-10">
+                  <input type="number" id="liderazgo" class="form-control" min="1" max="10" placeholder="Ingrese un numero" required>
+                </div>
+              </div>
+            <div>
+                <button id="GuardaDesempenio" type="submit" class="btn btn-primary">Guardar</button>
             </div>
-          </div>
-        <div>
-            <button id="GuardaDesempenio" type="submit">Guardar</button>
-        </div>
-        </form>
+            </form>
       </div>
     </div>
     <script src="desempenio.js"></script>
