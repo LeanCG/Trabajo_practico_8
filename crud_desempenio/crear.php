@@ -35,8 +35,8 @@ if ($resultado->num_rows > 0) {
 // Verificar que los datos no estén vacíos
 if ($puntualidad && $companierismo && $autoconciencia && $liderazgo) {
     // Preparar la consulta SQL
-    $sql = "INSERT INTO desempenio (descripcion,puntualidad, compañerismo, autoconciencia, liderazgo, last) 
-            VALUES ('$result','$puntualidad', '$companierismo', '$autoconciencia', '$liderazgo', 1)";
+    $sql = "INSERT INTO desempenio (descripcion,puntualidad, compañerismo, autoconciencia, liderazgo) 
+            VALUES ('$result','$puntualidad', '$companierismo', '$autoconciencia', '$liderazgo')";
 
     if ($conn->query($sql) === TRUE) {
         $last_id = $conn->insert_id;

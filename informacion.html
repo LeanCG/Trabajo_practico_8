@@ -19,18 +19,31 @@
         </div>
         <h1 id="h1ausencia" class="text-center">Ausencia</h1>
         <div id="info-ausencia" class="card mt-4 p-4">
-            <!-- La información del empleado se mostrará aquí -->
+            <table id="tabla-ausencias" class="table table-striped" style="display:none;">
+                <thead>
+                    <tr>
+                        <th>Fecha Salida</th>
+                        <th>Fecha Entrada</th>
+                        <th>Motivo</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-ausencias-contenido">
+                    <!-- Las ausencias se agregarán aquí -->
+                </tbody>
+            </table>
         </div>
+        
         <div class="d-flex justify-content-between mt-4">
             <button id="volverBtn" class="btn btn-secondary">Volver</button>
             <!-- Puedes agregar más botones aquí -->
             <button id="AgregardesempenioBtn" class="btn btn-primary">Agregar evaluacion</button>
             <button id="verausenciaBtn" class="btn btn-outline-light">Ausencias</button>
             <button id="ausenciaBtn" class="btn btn-outline-light">Agregar Ausencias</button>
-            <button id="editarBtn" class="btn btn-primary">Editar</button>
+            <button id="EditarBtn" class="btn btn-primary">Editar</button>
             <button id="eliminarBtn" class="btn btn-danger">Eliminar</button>
         </div>
     </div>
+     
     <div class="card mt-4" id="asistencia">
         <h1 class="text-center">Registrar Inasistencia</h1>
         <form id="guardarAsistencia">
