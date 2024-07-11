@@ -6,7 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('asistencia').style.display = 'none';
     document.getElementById('info-ausencia').style.display = 'none';
     document.getElementById('h1ausencia').style.display = 'none';
-
+    if (localStorage.getItem('recargarDesempenio') === 'true') {
+        verDesempenio(idempleado);
+        localStorage.removeItem('recargarDesempenio');
+    }
 
     if (idempleado) {
         let xhr = new XMLHttpRequest();
@@ -84,7 +87,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
         xhr.send(`idempleado=${encodeURIComponent(idempleado)}`);
+        verDesempenio(idempleado);
+    }
 
+    function verDesempenio(e){
         let xhr2 = new XMLHttpRequest();
         xhr2.open('POST', 'crud_desempenio/view.php', true);
         xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -106,8 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
         xhr2.send(`idempleado=${encodeURIComponent(idempleado)}`);
-    }
-
+    };
     document.getElementById('volverBtn').addEventListener('click', function() {
         window.history.back();
     });
@@ -146,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('verausenciaBtn').addEventListener('click', function(e){
         document.getElementById('h1ausencia').style.display = 'block';
+        document.getElementById('tabla-ausencias').style.display = 'block';
         document.getElementById('info-ausencia').style.display = 'block';
         
     
@@ -154,22 +160,87 @@ document.addEventListener('DOMContentLoaded', function () {
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                let ausencias = JSON.parse(xhr.responseText);
+                let data = JSON.parse(xhr.responseText);
+                console.log(xhr.responseText);
+                console.log(data)
                 let template = '';
-                ausencias.forEach(ausencia => {
+                data.forEach(ausencia => {
                     template += `
-                        <p><strong>Fecha de Salida:</strong> ${ausencia.fecha_salida}</p>
-                        <p><strong>Fecha de Entrada:</strong> ${ausencia.fecha_entrada}</p>
-                        <p><strong>Motivo:</strong> ${ausencia.motivo}</p>                       
+                        <tr class="usuario-data">
+                            <td>${ausencia.idausencia}</td>
+                            <td>${ausencia.fecha_salida}</td>
+                            <td>${ausencia.fecha_entrada}</td>
+                            <td>${ausencia.motivo}</td>
+                            <td><button type="button" class="modificar btn btn-outline-danger btn-sm" data-id="${ausencia.idausencia}">Modificar</button></td>
+                            <td><button type="button" class="borrar btn btn-outline-secondary btn-sm" data-id="${ausencia.idausencia}">Eliminar</button></td>
+                        </tr>
                     `;
-                    
                 });
+                
                 document.getElementById('info-ausencia').innerHTML = template;
+    
+                document.querySelectorAll('.modificar').forEach(boton => {
+                    boton.addEventListener('click', function(e) {
+                        let idausencia = this.getAttribute('data-id');
+                        console.log("Ausencia id:", idausencia);
+                        let fecha_salida = prompt('Ingrese la nueva fecha de salida (YYYY-MM-DD):', '');
+                        let fecha_entrada = prompt('Ingrese la nueva fecha de entrada (YYYY-MM-DD):', '');
+                        
+                        if (fecha_salida && fecha_entrada) {
+                            // Crear una solicitud XMLHttpRequest
+                            let xhrMotivos = new XMLHttpRequest();
+                            xhrMotivos.open('POST', 'modificar_ausencia.php', true);
+                            xhrMotivos.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                            
+                            // Manejar la respuesta
+                            xhrMotivos.onreadystatechange = function() {
+                                if (xhrMotivos.readyState === 4 && xhrMotivos.status === 200) {
+                                    try {
+                                        let response = JSON.parse(xhrMotivos.responseText);
+                                        if (response.success) {
+                                            alert('Ausencia modificada correctamente.');
+                                        } else {
+                                            alert('Error: ' + response.error);
+                                        }
+                                    } catch (e) {
+                                        console.error('Error al analizar la respuesta JSON: ', e);
+                                        alert('Hubo un problema con la respuesta del servidor.');
+                                    }
+                                }
+                            };
+                            
+                            // Enviar la solicitud con los datos
+                            xhrMotivos.send(`idausencia=${encodeURIComponent(idausencia)}&fecha_salida=${encodeURIComponent(fecha_salida)}&fecha_entrada=${encodeURIComponent(fecha_entrada)}`);
+                        } else {
+                            alert('Debe ingresar ambas fechas.');
+                        }
+                    });
+                });
+                
+    
+                document.querySelectorAll('.borrar').forEach(boton => {
+                    boton.addEventListener('click', function(e) {
+                        if (confirm('Desea eliminar esta ausencia?')) {
+                            let idausencia = this.getAttribute('data-id'); //No est 
+                            console.log('ausencia: ');
+                            console.log(idausencia);
+                            let deleteXhr = new XMLHttpRequest();
+                            deleteXhr.open('POST', 'eliminar_ausencia.php', true);
+                            deleteXhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                            deleteXhr.onreadystatechange = function() {
+                                if (deleteXhr.readyState === 4 && deleteXhr.status === 200) {
+                                    boton.closest('tr').remove();
+                                    alert ('Inasistencia eliminada correctamente')
+                                }
+                            };
+                            deleteXhr.send(`idausencia=${encodeURIComponent(idausencia)}`);
+                        }
+                    });
+                });
             }
         };
         xhr.send(`idempleado=${encodeURIComponent(idempleado)}`);
     });
-
 
     document.getElementById('guardarAsistencia').addEventListener('submit', function(e){
         e.preventDefault();
