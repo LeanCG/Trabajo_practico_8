@@ -169,10 +169,84 @@ document.addEventListener('DOMContentLoaded', function () {
                     let cellFechaSalida = row.insertCell(0);
                     let cellFechaEntrada = row.insertCell(1);
                     let cellMotivo = row.insertCell(2);
+                    let cellModificar = row.insertCell(3);
+                    let cellBorrar = row.insertCell(4);
     
                     cellFechaSalida.textContent = ausencia.fecha_salida;
                     cellFechaEntrada.textContent = ausencia.fecha_entrada;
                     cellMotivo.textContent = ausencia.motivo;
+    
+                    let modificarBtn = document.createElement('button');
+                    modificarBtn.textContent = 'Modificar';
+                    modificarBtn.className = 'modificar btn btn-outline-primary btn-sm';
+                    modificarBtn.setAttribute('data-id', ausencia.idausencia);
+                    cellModificar.appendChild(modificarBtn);
+    
+                    let borrarBtn = document.createElement('button');
+                    borrarBtn.textContent = 'Borrar';
+                    borrarBtn.className = 'borrar btn btn-outline-danger btn-sm';
+                    borrarBtn.setAttribute('data-id', ausencia.idausencia);
+                    cellBorrar.appendChild(borrarBtn);
+                });
+    
+                document.querySelectorAll('.modificar').forEach(boton => {
+                    boton.addEventListener('click', function(e) {
+                        let idausencia = this.getAttribute('data-id');
+                        let fecha_salida = prompt('Ingrese la nueva fecha de salida (YYYY-MM-DD):', '');
+                        let fecha_entrada = prompt('Ingrese la nueva fecha de entrada (YYYY-MM-DD):', '');
+                
+                        if (fecha_salida && fecha_entrada) {
+                            // Obtener los motivos de ausencia desde la base de datos
+                            let xhrMotivos = new XMLHttpRequest();
+                            xhrMotivos.open('GET', 'lista_motivo_ausencia.php', true);
+                            xhrMotivos.onreadystatechange = function() {
+                                if (xhrMotivos.readyState === 4 && xhrMotivos.status === 200) {
+                                    let motivos = JSON.parse(xhrMotivos.responseText);
+                                    let motivoSelect = document.getElementById('motivoSelect'); // Obtener el select existente
+                
+                                    // Limpiar select existente antes de agregar opciones nuevas
+                                    motivoSelect.innerHTML = '';
+                
+                                    motivos.forEach(function(motivo) {
+                                        let option = document.createElement('option');
+                                        option.value = motivo.idtipo_ausencia;
+                                        option.textContent = motivo.motivo;
+                                        motivoSelect.appendChild(option);
+                                    });
+                
+                                    // Aquí seleccionar automáticamente el motivo de la ausencia actual
+                                    // Suponiendo que tienes una manera de obtener el motivo actual desde la base de datos o el DOM
+                                    let motivoActual = obtenerMotivoActual(); // Implementa esta función según tu lógica
+                
+                                    if (motivoActual) {
+                                        motivoSelect.value = motivoActual;
+                                    }
+                
+                                    // Mostrar el cuadro de selección y obtener el motivo seleccionado
+                                    
+                                }
+                            };
+                            xhrMotivos.send();
+                        }
+                    });
+                });
+    
+                document.querySelectorAll('.borrar').forEach(boton => {
+                    boton.addEventListener('click', function(e) {
+                        if (confirm('Desea eliminar esta ausencia?')) {
+                            let idausencia = this.getAttribute('data-id');
+                            let deleteXhr = new XMLHttpRequest();
+                            deleteXhr.open('POST', 'eliminar_ausencia.php', true);
+                            deleteXhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                            deleteXhr.onreadystatechange = function() {
+                                if (deleteXhr.readyState === 4 && deleteXhr.status === 200) {
+                                    boton.closest('tr').remove();
+                                    alert ('Inasistencia eliminada correctamente')
+                                }
+                            };
+                            deleteXhr.send(`idausencia=${encodeURIComponent(idausencia)}`);
+                        }
+                    });
                 });
             }
         };
