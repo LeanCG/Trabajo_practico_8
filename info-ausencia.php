@@ -23,7 +23,7 @@ if (isset($_POST['idempleado'])) {
     }
 
     // Consulta para obtener las ausencias del empleado
-    $sql_ausencias = "SELECT ausencia.fecha_salida, ausencia.fecha_entrada, tipo_ausencia.motivo 
+    $sql_ausencias = "SELECT ausencia.idausencia, ausencia.fecha_salida, ausencia.fecha_entrada, tipo_ausencia.motivo 
                       FROM ausencia 
                       INNER JOIN tipo_ausencia ON tipo_ausencia.idtipo_ausencia = ausencia.tipo_ausencia_idtipo_ausencia 
                       WHERE ausencia.dato_laboral_iddato_laboral = $dato_laboral";
@@ -37,6 +37,7 @@ if (isset($_POST['idempleado'])) {
     $json = array();
     while ($row = mysqli_fetch_assoc($result)) {
         $json[] = array(
+            'idausencia' => $row['idausencia'],
             'fecha_salida' => $row['fecha_salida'],
             'fecha_entrada' => $row['fecha_entrada'],
             'motivo' => $row['motivo'],
