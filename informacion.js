@@ -161,33 +161,23 @@ document.addEventListener('DOMContentLoaded', function () {
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 let data = JSON.parse(xhr.responseText);
-                let tableBody = document.getElementById('tabla-ausencias-contenido');
-                tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos datos
-    
-                data.forEach(function(ausencia) {
-                    let row = tableBody.insertRow();
-                    let cellFechaSalida = row.insertCell(0);
-                    let cellFechaEntrada = row.insertCell(1);
-                    let cellMotivo = row.insertCell(2);
-                    let cellModificar = row.insertCell(3);
-                    let cellBorrar = row.insertCell(4);
-    
-                    cellFechaSalida.textContent = ausencia.fecha_salida;
-                    cellFechaEntrada.textContent = ausencia.fecha_entrada;
-                    cellMotivo.textContent = ausencia.motivo;
-    
-                    let modificarBtn = document.createElement('button');
-                    modificarBtn.textContent = 'Modificar';
-                    modificarBtn.className = 'modificar btn btn-outline-primary btn-sm';
-                    modificarBtn.setAttribute('data-id', ausencia.idausencia);
-                    cellModificar.appendChild(modificarBtn);
-    
-                    let borrarBtn = document.createElement('button');
-                    borrarBtn.textContent = 'Borrar';
-                    borrarBtn.className = 'borrar btn btn-outline-danger btn-sm';
-                    borrarBtn.setAttribute('data-id', ausencia.idausencia);
-                    cellBorrar.appendChild(borrarBtn);
+                console.log(xhr.responseText);
+                console.log(data)
+                let template = '';
+                data.forEach(ausencia => {
+                    template += `
+                        <tr class="usuario-data">
+                            <td>${ausencia.id}</td>
+                            <td>${ausencia.fecha_salida}</td>
+                            <td>${ausencia.fecha_entrada}</td>
+                            <td>${ausencia.motivo}</td>
+                            <td><button type="button" class="modificar btn btn-outline-danger btn-sm" data-id="${ausencia.id}">Modificar</button></td>
+                            <td><button type="button" class="borrar btn btn-outline-secondary btn-sm" data-id="${ausencia.id}">Eliminar</button></td>
+                        </tr>
+                    `;
                 });
+                
+                document.getElementById('info-ausencia').innerHTML = template;
     
                 document.querySelectorAll('.modificar').forEach(boton => {
                     boton.addEventListener('click', function(e) {
@@ -201,40 +191,19 @@ document.addEventListener('DOMContentLoaded', function () {
                             xhrMotivos.open('GET', 'lista_motivo_ausencia.php', true);
                             xhrMotivos.onreadystatechange = function() {
                                 if (xhrMotivos.readyState === 4 && xhrMotivos.status === 200) {
-                                    let motivos = JSON.parse(xhrMotivos.responseText);
-                                    let motivoSelect = document.getElementById('motivoSelect'); // Obtener el select existente
-                
-                                    // Limpiar select existente antes de agregar opciones nuevas
-                                    motivoSelect.innerHTML = '';
-                
-                                    motivos.forEach(function(motivo) {
-                                        let option = document.createElement('option');
-                                        option.value = motivo.idtipo_ausencia;
-                                        option.textContent = motivo.motivo;
-                                        motivoSelect.appendChild(option);
-                                    });
-                
-                                    // Aquí seleccionar automáticamente el motivo de la ausencia actual
-                                    // Suponiendo que tienes una manera de obtener el motivo actual desde la base de datos o el DOM
-                                    let motivoActual = obtenerMotivoActual(); // Implementa esta función según tu lógica
-                
-                                    if (motivoActual) {
-                                        motivoSelect.value = motivoActual;
-                                    }
-                
-                                    // Mostrar el cuadro de selección y obtener el motivo seleccionado
-                                    
+                                    alert ('Datos enviados para modificacion');                                    
                                 }
                             };
-                            xhrMotivos.send();
-                        }
+                            xhrMotivos.send(`idausencia=${encodeURIComponent(idausencia)}`);                        }
                     });
                 });
     
                 document.querySelectorAll('.borrar').forEach(boton => {
                     boton.addEventListener('click', function(e) {
                         if (confirm('Desea eliminar esta ausencia?')) {
-                            let idausencia = this.getAttribute('data-id');
+                            let idausencia = this.getAttribute('data-id'); //No est 
+                            console.log('ausencia: ');
+                            console.log(idausencia);
                             let deleteXhr = new XMLHttpRequest();
                             deleteXhr.open('POST', 'eliminar_ausencia.php', true);
                             deleteXhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
