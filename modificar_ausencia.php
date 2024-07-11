@@ -6,16 +6,16 @@ ini_set('display_errors', 1);
 include("database.php");
 
 // Verificar si se recibieron los parámetros necesarios
-if (isset($_POST['idausencia']) && isset($_POST['fecha_salida']) && isset($_POST['fecha_entrada']) && isset($_POST['motivo'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     // Sanitizar los parámetros
     $idausencia = mysqli_real_escape_string($conn, $_POST['idausencia']);
     $fecha_salida = mysqli_real_escape_string($conn, $_POST['fecha_salida']);
     $fecha_entrada = mysqli_real_escape_string($conn, $_POST['fecha_entrada']);
-    $motivo = mysqli_real_escape_string($conn, $_POST['motivo']);
+    //$motivo = mysqli_real_escape_string($conn, $_POST['motivo']);
 
     // Actualizar la ausencia
     $sql = "UPDATE ausencia 
-            SET fecha_salida='$fecha_salida', fecha_entrada='$fecha_entrada', tipo_ausencia_idtipo_ausencia='$motivo' 
+            SET fecha_salida='$fecha_salida', fecha_entrada='$fecha_entrada'
             WHERE idausencia='$idausencia'";
     
     if (mysqli_query($conn, $sql)) {
@@ -26,4 +26,7 @@ if (isset($_POST['idausencia']) && isset($_POST['fecha_salida']) && isset($_POST
 } else {
     echo json_encode(array('error' => 'No se recibieron los parámetros necesarios.'));
 }
+
+// Verificar que la conexión a la base de datos esté cerrada al final
+mysqli_close($conn);
 ?>

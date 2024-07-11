@@ -37,7 +37,7 @@ if (isset($_POST['idempleado'])) {
     $json = array();
     while ($row = mysqli_fetch_assoc($result)) {
         $json[] = array(
-            'id' => $row['idausencia'],
+            'idausencia' => $row['idausencia'],
             'fecha_salida' => $row['fecha_salida'],
             'fecha_entrada' => $row['fecha_entrada'],
             'motivo' => $row['motivo'],
