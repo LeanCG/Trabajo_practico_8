@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     `;
                 });
                 
-                document.getElementById('info-ausencia').innerHTML = template;
+                document.getElementById('tabla-ausencias-contenido').innerHTML = template;
     
                 document.querySelectorAll('.modificar').forEach(boton => {
                     boton.addEventListener('click', function(e) {
